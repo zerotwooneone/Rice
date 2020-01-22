@@ -6,4 +6,10 @@
     <RootNamespace>RiceConsole</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Rice.Core">
+      <HintPath>..\..\Dependencies\Rice\Rice.Core\Rice.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

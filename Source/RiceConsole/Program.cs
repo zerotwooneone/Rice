@@ -7,6 +7,8 @@ namespace RiceConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            var x = new Rice.Core.Class1();
         }
     }
 }
