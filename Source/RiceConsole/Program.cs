@@ -1,6 +1,7 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Rice.Core;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Unity.Microsoft.DependencyInjection;
 
 namespace RiceConsole
 {
@@ -11,14 +12,8 @@ namespace RiceConsole
             try
             {
                 Console.WriteLine("Hello World!");
-
-                var startup = new Startup();
-            
-                var serviceCollection = startup.ConfigureServices();
-                var unityContainer = startup.GetUnityContainer();
-                var serviceProvider = startup.GetServiceProvider(serviceCollection, unityContainer);
-            
-                var y = serviceProvider.GetRequiredService<Class1>();
+                
+                CreateWebHostBuilder(args).Build().Run();
             }
             catch (Exception e)
             {
@@ -26,5 +21,10 @@ namespace RiceConsole
                 throw;
             }
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseUnityServiceProvider()
+                .UseStartup<Startup>();
     }
 }

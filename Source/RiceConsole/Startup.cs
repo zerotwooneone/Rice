@@ -1,30 +1,50 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rice.Core;
 using Unity;
-using Unity.Microsoft.DependencyInjection;
 
 namespace RiceConsole
 {
     public class Startup
     {
-        public IServiceProvider GetServiceProvider(IServiceCollection serviceCollection, IUnityContainer unityContainer)
+        public Startup(IConfiguration configuration)
         {
-            var serviceProviderFactory = new ServiceProviderFactory(unityContainer);
-            var result = serviceProviderFactory.CreateServiceProvider(serviceCollection);
-            return result;
+            Configuration = configuration;
         }
 
-        public IUnityContainer GetUnityContainer()
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            var uc = new UnityContainer();
-            return uc;
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //services.AddControllersAsServices(); //Unity.Microsoft.DependencyInjection suggestion
+
+            //services.AddJwt();
+
+            //services.AddDistributedMemoryCache();
         }
 
-        public IServiceCollection ConfigureServices()
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var services = new ServiceCollection();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             
-            return services;
+            //app.UseStaticFiles();
+            app.UseMvc();
+        }
+
+        public void ConfigureContainer(IUnityContainer container)
+        {
+            // Could be used to register more types
+            //container.RegisterType<Class1>();
         }
     }
 }
