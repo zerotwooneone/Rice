@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Rice_Console</RootNamespace>
+    <RootNamespace>RiceConsole</RootNamespace>
   </PropertyGroup>
 
 </Project>

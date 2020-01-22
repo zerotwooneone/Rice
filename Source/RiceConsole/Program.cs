@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rice_Console
+namespace RiceConsole
 {
     class Program
     {
