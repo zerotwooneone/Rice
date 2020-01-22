@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Rice.Core;
 
 namespace RiceConsole
 {
@@ -6,9 +8,23 @@ namespace RiceConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            try
+            {
+                Console.WriteLine("Hello World!");
 
-            var x = new Rice.Core.Class1();
+                var startup = new Startup();
+            
+                var serviceCollection = startup.ConfigureServices();
+                var unityContainer = startup.GetUnityContainer();
+                var serviceProvider = startup.GetServiceProvider(serviceCollection, unityContainer);
+            
+                var y = serviceProvider.GetRequiredService<Class1>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
