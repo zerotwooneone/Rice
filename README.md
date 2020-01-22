@@ -1,5 +1,5 @@
 # Rice
 Remote code execution for .Net!
 
-#To DEv
+#To Dev 
 git clone --recurse-submodules https://github.com/zerotwooneone/Rice
