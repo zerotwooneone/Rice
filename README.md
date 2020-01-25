@@ -9,3 +9,4 @@ git submodule update --remote Rice.Core
 
 ## To Build
 dotnet build .\Rice.Core\Source\Rice.Core\Rice.Core.csproj --output .\Dependencies\Rice\Rice.Core
+dotnet build .\Rice.sln
