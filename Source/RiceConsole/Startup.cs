@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rice.Core;
+using Rice.Core.Unity;
 using Unity;
 
 namespace RiceConsole
@@ -44,7 +45,7 @@ namespace RiceConsole
         public void ConfigureContainer(IUnityContainer container)
         {
             // Could be used to register more types
-            //container.RegisterType<Class1>();
+            container.AddRice(fullPathToDll => new ModuleDependencyLoader(fullPathToDll));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Rice.Core;
+using Rice.Core.Abstractions.ModuleLoad;
 
 namespace RiceConsole.Api
 {
@@ -8,11 +8,13 @@ namespace RiceConsole.Api
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly Class1 _class1;
+        private readonly ILoadableModuleFactory _loadableModuleFactory;
+        private readonly IModuleLoader _moduleLoader;
 
-        public ValuesController(Class1 class1)
+        public ValuesController(ILoadableModuleFactory loadableModuleFactory, IModuleLoader moduleLoader)
         {
-            _class1 = class1;
+            _loadableModuleFactory = loadableModuleFactory;
+            _moduleLoader = moduleLoader;
         }
         // GET api/values
         [HttpGet]
