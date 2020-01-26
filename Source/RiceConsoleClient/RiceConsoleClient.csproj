@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Unity" Version="5.11.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Rice.Core.Abstractions">
+      <HintPath>..\..\Dependencies\Rice\Rice.Core.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Rice.Core.Unity">
+      <HintPath>..\..\Dependencies\Rice\Rice.Core.Unity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

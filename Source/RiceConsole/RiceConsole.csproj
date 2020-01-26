@@ -21,6 +21,9 @@
     <Reference Include="Rice.Core.Unity">
       <HintPath>..\..\Dependencies\Rice\Rice.Core.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Rice.Module.Abstractions">
+      <HintPath>..\..\Dependencies\Rice\Rice.Module.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
