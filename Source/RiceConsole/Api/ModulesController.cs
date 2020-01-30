@@ -44,9 +44,14 @@ namespace RiceConsole.Api
         {
             if (transportableModule == null) throw new ArgumentNullException(nameof(transportableModule));
 
-            var pathToDll = @"C:\Users\squir\AppData\Local\Rice";
+            var rootOutput = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Rice", "RiceConsole");
+            var directoryPath = Path.Combine(rootOutput, $"{DateTime.Now:yyyy.MM.dd.HH.mm.ss.ffff}");
+            Directory.CreateDirectory(directoryPath);
+            
             var dllFileName= $"{transportableModule.AssemblyName}.dll";
-            var fullPath = Path.Combine(pathToDll, dllFileName);
+            
+            var fullPath = Path.Combine(directoryPath, dllFileName);
 
             await _tranportableModuleWriter.WriteToFile(fullPath, transportableModule);
 
@@ -55,6 +60,7 @@ namespace RiceConsole.Api
             try
             {
                 var module = _moduleLoader.GetModule(loadableModule);
+                var result = module.Execute(null);
             }
             catch (Exception e)
             {

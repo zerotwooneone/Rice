@@ -1,4 +1,5 @@
-﻿using Rice.Core.Abstractions.Transport;
+﻿using System.Collections.Generic;
+using Rice.Core.Abstractions.Transport;
 
 namespace RiceConsole.Api
 {
@@ -6,5 +7,7 @@ namespace RiceConsole.Api
     {
         public string AssemblyName { get; set; }
         public byte[] Bytes { get; set; }
+        IEnumerable<ITransportableDependency> ITransportableModule.Dependencies => Dependencies;
+        public IEnumerable<TransportableDependency> Dependencies { get; set; }
     }
 }
