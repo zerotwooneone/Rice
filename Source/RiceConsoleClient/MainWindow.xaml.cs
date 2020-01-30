@@ -30,8 +30,7 @@ namespace RiceConsoleClient
             uc.AddRice(p=>new ModuleDependencyLoader(p));
             
             var transferableModuleFactory = uc.Resolve<ITransportableModuleFactory>();
-            var dependencyTuples =  FindDependencyStrategies.Default(DllPath.Text, AssemblyName.Text);
-            var transferable = await transferableModuleFactory.Create(DllPath.Text, AssemblyName.Text, dependencyTuples);
+            var transferable = await transferableModuleFactory.Create(DllPath.Text, AssemblyName.Text, FindDependencyStrategies.Default);
 
             using var client = new HttpClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, Url.Text);
