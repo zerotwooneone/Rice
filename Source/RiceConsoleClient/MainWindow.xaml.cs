@@ -1,6 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -32,9 +34,14 @@ namespace RiceConsoleClient
             var transferableModuleFactory = uc.Resolve<ITransportableModuleFactory>();
             var transferable = await transferableModuleFactory.Create(DllPath.Text, AssemblyName.Text, FindDependencyStrategies.Default);
 
-            using var client = new HttpClient();
+            var httpMessageHandler = new HttpClientHandler();
+            if (httpMessageHandler.SupportsAutomaticDecompression)
+            {
+                httpMessageHandler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            }
+            using var client = new HttpClient(httpMessageHandler);
             using var request = new HttpRequestMessage(HttpMethod.Post, Url.Text);
-            using var httpContent = CreateHttpContent(transferable);
+            using var httpContent = CreateJsonContent(transferable);
             request.Content = httpContent;
 
             string content = string.Empty;
@@ -53,12 +60,48 @@ namespace RiceConsoleClient
             {
                 Dispatcher.Invoke(() =>
                 {
-                    Error.Text = $"{httpRequestException}{Environment.NewLine}{content}";
+                    Error.Text = $"Exception:{httpRequestException}{Environment.NewLine}Response:{content}";
                 });
             }
         }
 
-        private static HttpContent CreateHttpContent(object content)
+        //private static HttpContent CreateCompressedJsonContent2(object obj)
+        //{
+        //    if (obj == null) throw new ArgumentNullException(nameof(obj));
+            
+        //    string json = JsonConvert.SerializeObject(obj);
+        //    byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+        //    MemoryStream ms = new MemoryStream();
+        //    using (GZipStream gzip = new GZipStream(ms, CompressionMode.Compress, true))
+        //    {
+        //        gzip.Write(jsonBytes, 0, jsonBytes.Length);
+        //    }
+        //    ms.Position = 0;
+        //    StreamContent content = new StreamContent(ms);
+        //    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        //    content.Headers.ContentEncoding.Add("gzip");
+
+        //    return content;
+        //}
+
+        //private static HttpContent CreateCompressedJsonContent(object content)
+        //{
+        //    if (content == null) throw new ArgumentNullException(nameof(content));
+            
+        //    var ms = new MemoryStream();
+        //    var gzip = new GZipStream(ms, CompressionMode.Compress, true);
+        //    SerializeJsonIntoStream(content, gzip);
+        //    ms.Seek(0, SeekOrigin.Begin);
+
+        //    HttpContent httpContent = new StreamContent(ms);
+            
+        //    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        //    httpContent.Headers.ContentEncoding.Add("gzip");
+
+        //    return httpContent;
+        //}
+
+        private static HttpContent CreateJsonContent(object content)
         {
             HttpContent httpContent = null;
 
@@ -77,8 +120,8 @@ namespace RiceConsoleClient
         public static void SerializeJsonIntoStream(object value, Stream stream)
         {
             using var sw = new StreamWriter(stream, new UTF8Encoding(false), 1024, true);
-            using var jtw = new JsonTextWriter(sw) { Formatting = Newtonsoft.Json.Formatting.None };
-            var js = new Newtonsoft.Json.JsonSerializer();
+            using var jtw = new JsonTextWriter(sw) { Formatting = Formatting.None };
+            var js = new JsonSerializer();
             js.Serialize(jtw, value);
             jtw.Flush();
         }
