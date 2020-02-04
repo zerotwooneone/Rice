@@ -65,7 +65,6 @@ namespace RiceConsole.Api
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
         }
 
