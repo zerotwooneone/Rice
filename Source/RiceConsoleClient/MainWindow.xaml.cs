@@ -65,42 +65,6 @@ namespace RiceConsoleClient
             }
         }
 
-        //private static HttpContent CreateCompressedJsonContent2(object obj)
-        //{
-        //    if (obj == null) throw new ArgumentNullException(nameof(obj));
-            
-        //    string json = JsonConvert.SerializeObject(obj);
-        //    byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
-        //    MemoryStream ms = new MemoryStream();
-        //    using (GZipStream gzip = new GZipStream(ms, CompressionMode.Compress, true))
-        //    {
-        //        gzip.Write(jsonBytes, 0, jsonBytes.Length);
-        //    }
-        //    ms.Position = 0;
-        //    StreamContent content = new StreamContent(ms);
-        //    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        //    content.Headers.ContentEncoding.Add("gzip");
-
-        //    return content;
-        //}
-
-        //private static HttpContent CreateCompressedJsonContent(object content)
-        //{
-        //    if (content == null) throw new ArgumentNullException(nameof(content));
-            
-        //    var ms = new MemoryStream();
-        //    var gzip = new GZipStream(ms, CompressionMode.Compress, true);
-        //    SerializeJsonIntoStream(content, gzip);
-        //    ms.Seek(0, SeekOrigin.Begin);
-
-        //    HttpContent httpContent = new StreamContent(ms);
-            
-        //    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        //    httpContent.Headers.ContentEncoding.Add("gzip");
-
-        //    return httpContent;
-        //}
-
         private static HttpContent CreateJsonContent(object content)
         {
             HttpContent httpContent = null;
