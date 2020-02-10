@@ -1,14 +1,15 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using Rice.Core.Abstractions.Serialize;
 using Rice.Core.Abstractions.Transport;
+using Rice.Core.Serialize.ProtoBuf;
 using Rice.Core.Unity;
 using Unity;
 
@@ -30,9 +31,11 @@ namespace RiceConsoleClient
 
             var uc = new UnityContainer();
             uc.AddRice(p=>new ModuleDependencyLoader(p));
+            uc.RegisterSingleton<ISerializableFactory, ProtoSerializableFactory>();
+            uc.RegisterSingleton<ISerializer, SerializerWrapper>();
             
             var transferableModuleFactory = uc.Resolve<ITransportableModuleFactory>();
-            var transferable = await transferableModuleFactory.Create(DllPath.Text, AssemblyName.Text, FindDependencyStrategies.Default);
+            var transferable = await transferableModuleFactory.Create(AssemblyName.Text,DllPath.Text, FindDependencyStrategies.Default);
 
             var httpMessageHandler = new HttpClientHandler();
             if (httpMessageHandler.SupportsAutomaticDecompression)
@@ -41,6 +44,9 @@ namespace RiceConsoleClient
             }
             using var client = new HttpClient(httpMessageHandler);
             using var request = new HttpRequestMessage(HttpMethod.Post, Url.Text);
+
+            //var json = JsonConvert.SerializeObject(transferable);
+
             using var httpContent = CreateJsonContent(transferable);
             request.Content = httpContent;
 

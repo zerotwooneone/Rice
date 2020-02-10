@@ -49,16 +49,13 @@ namespace RiceConsole.Api
             var directoryPath = Path.Combine(rootOutput, $"{DateTime.Now:yyyy.MM.dd.HH.mm.ss.ffff}");
             Directory.CreateDirectory(directoryPath);
             
-            var dllFileName= $"{transportableModule.AssemblyName}.dll";
-            
-            var fullPath = Path.Combine(directoryPath, dllFileName);
-
-            await _tranportableModuleWriter.WriteToFile(fullPath, transportableModule);
-
-            var loadableModule = _loadableModuleFactory.Create(fullPath, transportableModule.AssemblyName);
-
             try
             {
+                await _tranportableModuleWriter.WriteToFile(directoryPath, transportableModule);
+
+                var fullPathToDll = Path.Combine(directoryPath, "TestModule.dll");
+                var loadableModule = _loadableModuleFactory.Create(transportableModule.AssemblyName, fullPathToDll);
+
                 var module = _moduleLoader.GetModule(loadableModule);
                 var result = module.Execute(null);
             }

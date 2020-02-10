@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
-using Rice.Core;
+using Rice.Core.Abstractions.Serialize;
+using Rice.Core.Serialize.ProtoBuf;
 using Rice.Core.Unity;
 using Unity;
 
@@ -52,6 +50,9 @@ namespace RiceConsole
         {
             // Could be used to register more types
             container.AddRice(fullPathToDll => new ModuleDependencyLoader(fullPathToDll));
+
+            container.RegisterSingleton<ISerializableFactory, ProtoSerializableFactory>();
+            container.RegisterSingleton<ISerializer, SerializerWrapper>();
         }
     }
 }
