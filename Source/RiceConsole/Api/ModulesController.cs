@@ -53,7 +53,7 @@ namespace RiceConsole.Api
             {
                 await _tranportableModuleWriter.WriteToFile(directoryPath, transportableModule);
 
-                var fullPathToDll = Path.Combine(directoryPath, "TestModule.dll");
+                var fullPathToDll = Path.Combine(directoryPath, $"{transportableModule.AssemblyName}.dll");
                 var loadableModule = _loadableModuleFactory.Create(transportableModule.AssemblyName, fullPathToDll);
 
                 var module = _moduleLoader.GetModule(loadableModule);
