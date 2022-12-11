@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Rice.Core.Serialize.ProtoBuf" Version="1.0.1" />
     <PackageReference Include="Rice.Core.Unity" Version="1.0.1" />
     <PackageReference Include="Unity" Version="5.11.3" />
